@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Malla Obstetricia USS</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 30px;
+      background-color: #fffafc;
+    }
+    h2 {
+      background-color: #f7c6d9;
+      color: #a6225f;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #f2a5c5;
+    }
+    .semestre {
+      margin-bottom: 30px;
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 20px;
+    }
+    li {
+      background-color: #ffffff;
+      padding: 10px 14px;
+      margin-bottom: 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid #f3dce3;
+      transition: background-color 0.2s ease;
+    }
+    li:hover {
+      background-color: #fce8f1;
+    }
+    li.tachado {
+      text-decoration: line-through;
+      color: #888;
+      background-color: #f0f0f0;
+      border: 1px solid #d3d3d3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 style="color:#a6225f;">Malla de Obstetricia - USS</h1>
+  <div id="malla"></div>
+
+  <script>
+    const malla = {
+      "1° Semestre": [
+        "Biología Celular",
+        "Morfología Básica",
+        "Química General y Orgánica",
+        "Salud Digital",
+        "Antropología Ética Persona y Sociedad"
+      ],
+      "2° Semestre": [
+        "Histoembriología",
+        "Bioquímica General",
+        "Epidemiología",
+        "Fundamentos de la Matronería",
+        "Electivo I: Formación e Identidad"
+      ],
+      "3° Semestre": [
+        "Embriología y Genética",
+        "Microbiología Médica",
+        "Integrado Fisiología–Fisiopatología I",
+        "Salud Mental en el Curso de la Vida",
+        "Electivo II: Formación e Identidad"
+      ],
+      "4° Semestre": [
+        "Anatomía Aplicada a la Gineco-Obstetricia",
+        "Bioestadística y Salud",
+        "Integrado Fisiología–Fisiopatología II",
+        "Proceso de Atención en Matronería",
+        "Electivo III: Formación e Identidad"
+      ],
+      "5° Semestre": [
+        "Fisiología Ginecológica y Sexual en el Curso de la Vida",
+        "Farmacología General",
+        "Salud Reproductiva y Gerontológica",
+        "Proceso de Atención en Matronería Médico Quirúrgico"
+      ],
+      "6° Semestre": [
+        "Salud Familiar y Comunitaria",
+        "Consejería en Salud Sexual y Reproductiva",
+        "Fisiología Obstétrica y Neonatal",
+        "Proyecto de Investigación Interdisciplinaria"
+      ],
+      "7° Semestre": [
+        "Matronería en Atención Primaria",
+        "Patología Obstétrica y Neonatal",
+        "Gestión y Calidad en Salud",
+        "Medicina Legal y Matronería"
+      ],
+      "8° Semestre": [
+        "Integrado Perinatal y Ginecológico",
+        "Gestión Clínica Obstétrica y Neonatal",
+        "Salud Basada en la Evidencia",
+        "Gestión Clínica y Atención Comunitaria"
+      ],
+      "9° Semestre": [
+        "Internado en Salud Familiar y Comunitaria",
+        "Gestión Clínica Perinatal y Ginecológica",
+        "Patología Ginecológica en el Curso de la Vida",
+        "Gestión de Carrera y Desarrollo Profesional"
+      ],
+      "10° Semestre": [
+        "Internado de Especialidades en Matronería",
+        "Internado Intrahospitalario"
+      ]
+    };
+
+    const contenedor = document.getElementById("malla");
+    const estado = JSON.parse(localStorage.getItem("ramosAprobados") || "{}");
+
+    for (const [semestre, ramos] of Object.entries(malla)) {
+      const div = document.createElement("div");
+      div.classList.add("semestre");
+      const h2 = document.createElement("h2");
+      h2.textContent = semestre;
+      div.appendChild(h2);
+
+      const ul = document.createElement("ul");
+      ramos.forEach((ramo) => {
+        const li = document.createElement("li");
+        li.textContent = ramo;
+        if (estado[ramo]) li.classList.add("tachado");
+
+        li.addEventListener("click", () => {
+          li.classList.toggle("tachado");
+          estado[ramo] = li.classList.contains("tachado");
+          localStorage.setItem("ramosAprobados", JSON.stringify(estado));
+        });
+
+        ul.appendChild(li);
+      });
+
+      div.appendChild(ul);
+      contenedor.appendChild(div);
+    }
+  </script>
+
+</body>
+</html>
